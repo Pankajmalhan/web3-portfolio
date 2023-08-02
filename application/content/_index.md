@@ -21,7 +21,7 @@ promotion:
   link: "#"
 
 recent_posts:
-  title: Recent Posts
+  title: Portfolio
   enable: true
 
 ---

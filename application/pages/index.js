@@ -83,7 +83,7 @@ const Home = ({
         </div>
       </section>
 
-      <section className="section mt-16">
+      <section className="section mt-0 pt-0">
         <div className="container text-center">
           {markdownify(title, "h1", "h1 text-left lg:text-[55px] mt-12")}
 
@@ -126,7 +126,7 @@ const Home = ({
         </div>
       </section>
       {/* Home main */}
-      <section className="section">
+      <section className="sectio mt-0 pt-0">
         <div className="container">
           <div className="row items-start">
             <div className="mb-12 lg:mb-0 lg:col-12">
