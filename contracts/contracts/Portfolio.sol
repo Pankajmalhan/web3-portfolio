@@ -19,6 +19,47 @@ contract Portfolio is Ownable {
     string private _github;
     string private _linkedin;
 
+    // struct for education with name, degree, and year and percentage
+    struct Education {
+        string name;
+        string degree;
+        string year;
+        string percentage;
+    }
+
+    // struct for experience with name, role, url, and year 
+    struct Experience {
+        string name;
+        string role;
+        string url;
+        string year;
+    }
+
+    // struct for skills with name and rating and
+    struct Skill {
+        string name;
+        string rating;
+    }
+
+    // struct for projects with name, description, url, github ,year and image
+    struct Project {
+        string name;
+        string description;
+        string url;
+        string github;
+        string year;
+        string image;
+    }
+
+
+    // array of Skill structs
+    Skill[] private _skills;
+
+    // array of Experience structs
+    Experience[] private _experience;
+
+    // array of Education structs
+    Education[] private _education;
 
     // Constructor - run when contract is deployed
     constructor() {
@@ -167,5 +208,221 @@ contract Portfolio is Ownable {
             _linkedin
         );
     }
+
+    // Write function to add education
+    function addEducation(
+        string memory _name,
+        string memory _degree,
+        string memory _year,
+        string memory _percentage
+    ) public onlyOwner {
+        _education.push(Education(_name, _degree, _year, _percentage));
+    }
+
+
+    // Write function to get education
+    function getEducation(uint256 _index) public view returns (
+        string memory,
+        string memory,
+        string memory,
+        string memory
+    ) {
+        return (
+            _education[_index].name,
+            _education[_index].degree,
+            _education[_index].year,
+            _education[_index].percentage
+        );
+    }
+
+    // Write function to get education length
+    function getEducationLength() public view returns (uint256) {
+        return _education.length;
+    }
+
+    // Write function to update education
+    function updateEducation(
+        uint256 _index,
+        string memory _name,
+        string memory _degree,
+        string memory _year,
+        string memory _percentage
+    ) public onlyOwner {
+        _education[_index].name = _name;
+        _education[_index].degree = _degree;
+        _education[_index].year = _year;
+        _education[_index].percentage = _percentage;
+    }
+
+    // Write function to delete education
+    function deleteEducation(uint256 _index) public onlyOwner {
+        delete _education[_index];
+    }
+
+    // Write function to get all education
+    function getAllEducation() public view returns (Education[] memory) {
+        return _education;
+    }
+
+
+    // Write function to add experience
+    function addExperience(
+        string memory _name,
+        string memory _role,
+        string memory _url,
+        string memory _year
+    ) public onlyOwner {
+        _experience.push(Experience(_name, _role, _url, _year));
+    }
+
+    // Write function to get experience
+    function getExperience(uint256 _index) public view returns (
+        string memory,
+        string memory,
+        string memory,
+        string memory
+    ) {
+        return (
+            _experience[_index].name,
+            _experience[_index].role,
+            _experience[_index].url,
+            _experience[_index].year
+        );
+    }
+
+    // Write function to get experience length
+    function getExperienceLength() public view returns (uint256) {
+        return _experience.length;
+    }
+
+    // Write function to update experience
+    function updateExperience(
+        uint256 _index,
+        string memory _name,
+        string memory _role,
+        string memory _url,
+        string memory _year
+    ) public onlyOwner {
+        _experience[_index].name = _name;
+        _experience[_index].role = _role;
+        _experience[_index].url = _url;
+        _experience[_index].year = _year;
+    }
+
+    // Write function to delete experience
+    function deleteExperience(uint256 _index) public onlyOwner {
+        delete _experience[_index];
+    }
+
+    // Write function to get all experience
+    function getAllExperience() public view returns (Experience[] memory) {
+        return _experience;
+    }
+
+    // Write function to add skill
+    function addSkill(string memory _name, string memory _rating) public onlyOwner {
+        _skills.push(Skill(_name, _rating));
+    }
+
+    // Write function to get skill
+    function getSkill(uint256 _index) public view returns (
+        string memory,
+        string memory
+    ) {
+        return (
+            _skills[_index].name,
+            _skills[_index].rating
+        );
+    }
+
+    // Write function to get skill length
+    function getSkillLength() public view returns (uint256) {
+        return _skills.length;
+    }
+
+    // Write function to update skill
+    function updateSkill(
+        uint256 _index,
+        string memory _name,
+        string memory _rating
+    ) public onlyOwner {
+        _skills[_index].name = _name;
+        _skills[_index].rating = _rating;
+    }
+
+    // Write function to delete skill
+    function deleteSkill(uint256 _index) public onlyOwner {
+        delete _skills[_index];
+    }
+
+    // Write function to get all skills
+    function getAllSkills() public view returns (Skill[] memory) {
+        return _skills;
+    }
+
+    // Write function to add project
+    function addProject(
+        string memory _name,
+        string memory _description,
+        string memory _url,
+        string memory _github,
+        string memory _year,
+        string memory _image
+    ) public onlyOwner {
+        _projects.push(Project(_name, _description, _url, _github, _year, _image));
+    }
+
+    // Write function to get project
+    function getProject(uint256 _index) public view returns (
+        string memory,
+        string memory,
+        string memory,
+        string memory,
+        string memory,
+        string memory
+    ) {
+        return (
+            _projects[_index].name,
+            _projects[_index].description,
+            _projects[_index].url,
+            _projects[_index].github,
+            _projects[_index].year,
+            _projects[_index].image
+        );
+    }
+
+    // Write function to get project length
+    function getProjectLength() public view returns (uint256) {
+        return _projects.length;
+    }
+
+    // Write function to update project
+    function updateProject(
+        uint256 _index,
+        string memory _name,
+        string memory _description,
+        string memory _url,
+        string memory _github,
+        string memory _year,
+        string memory _image
+    ) public onlyOwner {
+        _projects[_index].name = _name;
+        _projects[_index].description = _description;
+        _projects[_index].url = _url;
+        _projects[_index].github = _github;
+        _projects[_index].year = _year;
+        _projects[_index].image = _image;
+    }
+
+    // Write function to delete project
+    function deleteProject(uint256 _index) public onlyOwner {
+        delete _projects[_index];
+    }
+
+    // Write function to get all projects
+    function getAllProjects() public view returns (Project[] memory) {
+        return _projects;
+    }
+    
 
 }
