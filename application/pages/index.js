@@ -84,20 +84,42 @@ const Home = ({
       </section>
 
       <section className="section mt-0 pt-0">
-        <div className="container text-center">
+        <div className="pl-12 pr-12">
           {markdownify(title, "h1", "h1 text-left lg:text-[55px] mt-12")}
 
           <div className="content text-left">
             <MDXRemote {...mdxContent} components={shortcodes} />
           </div>
+          <div className="row items-start">
+            <div className="mb-12 lg:mb-0 lg:col-12">
+              {/* Recent Posts */}
+              {recent_posts.enable && (
+                <div className="section pt-0 pb-0">
+                  <div className="rounded border border-border px-6 pt-6 dark:border-darkmode-border">
+                  {markdownify("Education", "h2", "section-title")}
+                    <div className="row">
+                      {sortPostByDate.slice(0, 3).map((post) => (
+                        <div className="mb-8 md:col-4" key={post.slug}>
+                          <a href="#" className="relative block max-w-sm p-6 bg-primary border border-gray-200 rounded-lg shadow group overflow-hidden">
+                            <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology acquisitions 2021</h5>
+                            <p className="font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
+                          </a>
 
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
           <div className="row mt-24 text-left lg:flex-nowrap">
-            <div className="lg:col-6 ">
+            <div className="lg:col-4 ">
               <div className="rounded border border-border p-6 dark:border-darkmode-border ">
                 {markdownify(education.title, "h2", "section-title mb-12")}
-                <div className="row">
-                  {education.degrees.map((degree, index) => (
-                    <div className="mb-7 md:col-6" key={"degree-" + index}>
+                <div className="col">
+                  {education.degrees.slice(0, 3).map((degree, index) => (
+                    <div className="mb-12 md:col-12" key={"degree-" + index}>
                       <h4 className="text-base lg:text-[25px]">
                         {degree.university}
                       </h4>
@@ -107,10 +129,10 @@ const Home = ({
                 </div>
               </div>
             </div>
-            <div className="experience mt-10 lg:mt-0 lg:col-6">
+            <div className="experience mt-10 lg:mt-0 lg:col-8">
               <div className="rounded border border-border p-6 dark:border-darkmode-border ">
                 {markdownify(experience.title, "h2", "section-title mb-12")}
-                <ul className="row">
+                <ul className="col">
                   {experience?.list?.map((item, index) => (
                     <li
                       className="mb-5 text-lg font-bold text-dark dark:text-darkmode-light lg:col-6"
@@ -127,7 +149,7 @@ const Home = ({
       </section>
       {/* Home main */}
       <section className="sectio mt-0 pt-0">
-        <div className="container">
+        <div className="pl-12 pr-12">
           <div className="row items-start">
             <div className="mb-12 lg:mb-0 lg:col-12">
               {/* Recent Posts */}
@@ -167,7 +189,7 @@ export const getStaticProps = async () => {
     const filteredPosts = posts.filter((post) =>
       post.frontmatter.categories.includes(category)
     );
-    
+
     return {
       name: category,
       posts: filteredPosts.length,
@@ -183,7 +205,7 @@ export const getStaticProps = async () => {
       recent_posts,
       promotion,
       categories: categoriesWithPostsCount,
-      about:about
+      about: about
     },
   };
 };

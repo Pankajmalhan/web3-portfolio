@@ -10,6 +10,7 @@
     "deploy": "npx thirdweb@latest deploy"
   },
   "dependencies": {
+    "@openzeppelin/contracts": "^4.9.3",
     "@thirdweb-dev/contracts": "^3"
   },
   "devDependencies": {
