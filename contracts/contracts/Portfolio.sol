@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.11;
-import "@openzeppelin/contracts/ownership/Ownable.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract Portfolio is Ownable {
     // Internal state to the contract
@@ -11,6 +11,7 @@ contract Portfolio is Ownable {
     string private _description;
     string private _image;
     string private _resume;
+
     string private _email;
     string private _phone;
     string private _tagline;
@@ -63,7 +64,7 @@ contract Portfolio is Ownable {
     Project[] private _projects;
 
     // Constructor - run when contract is deployed
-    constructor() Ownable(msg.sender){
+    constructor(){
     }
 
     // Read function (can be called without a transaction)
@@ -172,10 +173,10 @@ contract Portfolio is Ownable {
     }
 
     // Optional: A simple email validation function (not suitable for all cases)
-    function isValidEmail(string memory _email) internal pure returns (bool) {
+    function isValidEmail(string memory email) internal pure returns (bool) {
         // Perform basic email format check here (e.g., check for '@' symbol and valid domain)
         // This example is just for demonstration purposes and is not exhaustive.
-        bytes memory emailBytes = bytes(_email);
+        bytes memory emailBytes = bytes(email);
         bool hasAtSymbol = false;
         bool hasDot = false;
         for (uint i = 0; i < emailBytes.length; i++) {
@@ -395,22 +396,22 @@ contract Portfolio is Ownable {
 
     // Write function to add education
     function addEducation(
-        string memory _name,
-        string memory _degree,
-        string memory _year,
-        uint _percentage
+        string memory name,
+        string memory degree,
+        string memory year,
+        uint percentage
     ) public onlyOwner {
-        require(bytes(_name).length > 0, "Name cannot be empty");
-        require(bytes(_degree).length > 0, "Degree cannot be empty");
-        require(bytes(_year).length > 0, "Year cannot be empty");
+        require(bytes(name).length > 0, "Name cannot be empty");
+        require(bytes(degree).length > 0, "Degree cannot be empty");
+        require(bytes(year).length > 0, "Year cannot be empty");
 
         // Validate Percentage
         require(
-            _percentage >= 0 && _percentage <= 100,
+            percentage >= 0 && percentage <= 100,
             "Percentage must be between 0 and 100"
         );
 
-        _education.push(Education(_name, _degree, _year, _percentage));
+        _education.push(Education(_name, degree, year, percentage));
     }
 
     // Write function to get education
@@ -437,13 +438,13 @@ contract Portfolio is Ownable {
     // Write function to update education
     function updateEducation(
         uint256 _index,
-        string memory _name,
+        string memory name,
         string memory _degree,
         string memory _year,
         uint _percentage
     ) public onlyOwner {
         require(_index < _education.length, "Invalid index");
-        require(bytes(_name).length > 0, "Name cannot be empty");
+        require(bytes(name).length > 0, "Name cannot be empty");
         require(bytes(_degree).length > 0, "Degree cannot be empty");
         require(bytes(_year).length > 0, "Year cannot be empty");
 
@@ -471,16 +472,16 @@ contract Portfolio is Ownable {
 
     // Write function to add experience
     function addExperience(
-        string memory _name,
+        string memory name,
         string memory _role,
         string memory _url,
         string memory _year
     ) public onlyOwner {
-        require(bytes(_name).length > 0, "Name cannot be empty");
+        require(bytes(name).length > 0, "Name cannot be empty");
         require(bytes(_role).length > 0, "Role cannot be empty");
         require(bytes(_url).length > 0, "URL cannot be empty");
         require(bytes(_year).length > 0, "Year cannot be empty");
-        _experience.push(Experience(_name, _role, _url, _year));
+        _experience.push(Experience(name, _role, _url, _year));
     }
 
     // Write function to get experience
@@ -507,18 +508,18 @@ contract Portfolio is Ownable {
     // Write function to update experience
     function updateExperience(
         uint256 _index,
-        string memory _name,
+        string memory name,
         string memory _role,
         string memory _url,
         string memory _year
     ) public onlyOwner {
         require(_index < _experience.length, "Invalid index");
-        require(bytes(_name).length > 0, "Name cannot be empty");
+        require(bytes(name).length > 0, "Name cannot be empty");
         require(bytes(_role).length > 0, "Role cannot be empty");
         require(bytes(_url).length > 0, "URL cannot be empty");
         require(bytes(_year).length > 0, "Year cannot be empty");
 
-        _experience[_index].name = _name;
+        _experience[_index].name = name;
         _experience[_index].role = _role;
         _experience[_index].url = _url;
         _experience[_index].year = _year;
@@ -544,13 +545,13 @@ contract Portfolio is Ownable {
     }
 
     // Write function to add skill
-    function addSkill(string memory _name, uint _rating) public onlyOwner {
-        require(bytes(_name).length > 0, "Name cannot be empty");
+    function addSkill(string memory name, uint _rating) public onlyOwner {
+        require(bytes(name).length > 0, "Name cannot be empty");
         require(
             _rating >= 1 && _rating <= 10,
             "Rating must be between 1 and 10"
         );
-        _skills.push(Skill(_name, _rating));
+        _skills.push(Skill(name, _rating));
     }
 
     // Write function to get skill
@@ -568,17 +569,17 @@ contract Portfolio is Ownable {
     // Write function to update skill
     function updateSkill(
         uint256 _index,
-        string memory _name,
+        string memory name,
         uint _rating
     ) public onlyOwner {
         require(_index < _skills.length, "Invalid index");
-        require(bytes(_name).length > 0, "Name cannot be empty");
+        require(bytes(name).length > 0, "Name cannot be empty");
         require(
             _rating >= 1 && _rating <= 10,
             "Rating must be between 1 and 10"
         );
 
-        _skills[_index].name = _name;
+        _skills[_index].name = name;
         _skills[_index].rating = _rating;
     }
 
@@ -604,22 +605,22 @@ contract Portfolio is Ownable {
 
     // Write function to add project
     function addProject(
-        string memory _name,
-        string memory _description,
-        string memory _url,
-        string memory _github,
-        string memory _year,
-        string memory _image
+        string memory name,
+        string memory description,
+        string memory url,
+        string memory github,
+        string memory year,
+        string memory image
     ) public onlyOwner {
-        require(bytes(_name).length > 0, "Name cannot be empty");
-        require(bytes(_description).length > 0, "Description cannot be empty");
-        require(bytes(_url).length > 0, "URL cannot be empty");
-        require(bytes(_github).length > 0, "Github URL cannot be empty");
-        require(bytes(_year).length > 0, "Year cannot be empty");
-        require(bytes(_image).length > 0, "Image URL cannot be empty");
+        require(bytes(name).length > 0, "Name cannot be empty");
+        require(bytes(description).length > 0, "Description cannot be empty");
+        require(bytes(url).length > 0, "URL cannot be empty");
+        require(bytes(github).length > 0, "Github URL cannot be empty");
+        require(bytes(year).length > 0, "Year cannot be empty");
+        require(bytes(image).length > 0, "Image URL cannot be empty");
 
         _projects.push(
-            Project(_name, _description, _url, _github, _year, _image)
+            Project(name, description, url, github, year, image)
         );
     }
 
@@ -656,28 +657,28 @@ contract Portfolio is Ownable {
     // Write function to update project
     function updateProject(
         uint256 _index,
-        string memory _name,
-        string memory _description,
-        string memory _url,
-        string memory _github,
-        string memory _year,
-        string memory _image
+        string memory name,
+        string memory description,
+        string memory url,
+        string memory github,
+        string memory year,
+        string memory image
     ) public onlyOwner {
         require(_index < _projects.length, "Invalid index");
 
-        require(bytes(_name).length > 0, "Name cannot be empty");
-        require(bytes(_description).length > 0, "Description cannot be empty");
-        require(bytes(_url).length > 0, "URL cannot be empty");
-        require(bytes(_github).length > 0, "Github URL cannot be empty");
-        require(bytes(_year).length > 0, "Year cannot be empty");
-        require(bytes(_image).length > 0, "Image URL cannot be empty");
+        require(bytes(name).length > 0, "Name cannot be empty");
+        require(bytes(description).length > 0, "Description cannot be empty");
+        require(bytes(url).length > 0, "URL cannot be empty");
+        require(bytes(github).length > 0, "Github URL cannot be empty");
+        require(bytes(year).length > 0, "Year cannot be empty");
+        require(bytes(image).length > 0, "Image URL cannot be empty");
 
-        _projects[_index].name = _name;
-        _projects[_index].description = _description;
-        _projects[_index].url = _url;
-        _projects[_index].github = _github;
-        _projects[_index].year = _year;
-        _projects[_index].image = _image;
+        _projects[_index].name = name;
+        _projects[_index].description = description;
+        _projects[_index].url = url;
+        _projects[_index].github = github;
+        _projects[_index].year = year;
+        _projects[_index].image = image;
     }
 
     // Write function to delete project
