@@ -67,11 +67,6 @@ contract Portfolio is Ownable {
     constructor(){
     }
 
-    // Read function (can be called without a transaction)
-    function getOwner() public view returns (address) {
-        return _owner;
-    }
-
     // Write function to update name
     function setName(string memory _newName) public onlyOwner {
         require(bytes(_newName).length > 0, "Name cannot be empty");
