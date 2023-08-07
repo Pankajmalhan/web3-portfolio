@@ -6,7 +6,6 @@ describe("Portfolio", function () {
     // Define a fixture to reuse the same setup in every test
     async function deployFixture() {
         const [owner, otherAccount] = await ethers.getSigners();
-
         const portfolioFactory = await ethers.getContractFactory("Portfolio");
         const portfolio = await portfolioFactory.deploy();
         portfolio.deployed();
