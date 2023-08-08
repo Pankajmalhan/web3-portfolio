@@ -5,7 +5,7 @@ const { blog_folder, summary_length } = config.settings;
 // blog pagination
 const Admin = () => {
   return (
-    <Base>
+    <Base isAdmin={true}>
       <section className="section">
         <div className="container">
         </div>

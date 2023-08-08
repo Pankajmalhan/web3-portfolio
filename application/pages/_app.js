@@ -6,6 +6,8 @@ import Head from "next/head";
 import { useEffect, useState } from "react";
 import TagManager from "react-gtm-module";
 import "styles/style.scss";
+import { ThirdwebProvider, coinbaseWallet, metamaskWallet, walletConnect } from "@thirdweb-dev/react";
+import { CHAIN } from "const/chains";
 
 const App = ({ Component, pageProps }) => {
   // default theme setup
@@ -57,7 +59,15 @@ const App = ({ Component, pageProps }) => {
         />
       </Head>
       <ThemeProvider attribute="class" defaultTheme={default_theme}>
+      <ThirdwebProvider 
+      supportedWallets={[
+        metamaskWallet(),
+        coinbaseWallet(),
+        walletConnect()
+      ]}
+      activeChain={CHAIN} clientId={process.env.NEXT_PUBLIC_THIRDWEB_API_KEY}>
         <Component {...pageProps} />
+        </ThirdwebProvider>
       </ThemeProvider>
     </JsonContext>
   );

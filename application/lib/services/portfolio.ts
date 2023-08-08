@@ -7,7 +7,7 @@ class PortfolioService {
   sdk: ThirdwebSDK;
   constructor() {
     this.sdk = new ThirdwebSDK(CHAIN,{
-        clientId: process.env.THIRDWEB_CLIENT_ID,
+        clientId: process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID,
         secretKey: process.env.THIRDWEB_SECRET_KEY,
       });
   }

@@ -13,6 +13,7 @@ const Base = ({
   noindex,
   canonical,
   children,
+  isAdmin
 }) => {
   const { meta_image, meta_author, meta_description } = config.metadata;
   const { base_url } = config.site;
@@ -89,7 +90,7 @@ const Base = ({
         />
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
-      <Header />
+      <Header isAdmin={isAdmin}/>
       {/* main site */}
       <main>{children}</main>
       <Footer />
