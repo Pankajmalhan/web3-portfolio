@@ -1,10 +1,10 @@
 import { ThirdwebSDK } from "@thirdweb-dev/sdk";
-import { CHAIN } from "const/chains";
-import { portfolio } from "const/contracts";
+import { CHAIN } from "../../const/chains";
+import { portfolio } from "../../const/contracts";
 
 
 class PortfolioService {
-  sdk: ThirdwebSDK;
+  sdk;
   constructor() {
     this.sdk = new ThirdwebSDK(CHAIN,{
         clientId: process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID,
