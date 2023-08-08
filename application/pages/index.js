@@ -13,6 +13,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { MDXRemote } from "next-mdx-remote";
 import shortcodes from "@shortcodes/all";
+import portfolioService from "@lib/services/portfolio";
+
 const { blog_folder, pagination } = config.settings;
 
 const Home = ({
@@ -179,6 +181,9 @@ export default Home;
 
 // for homepage data
 export const getStaticProps = async () => {
+
+  const owner= await portfolioService.getOwner();
+  console.log("owner",owner);
   const homepage = await getListPage("content/_index.md");
   const { frontmatter } = homepage;
   const { banner, featured_posts, recent_posts, promotion } = frontmatter;

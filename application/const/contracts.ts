@@ -15,6 +15,6 @@ const portfolio_prod = "";
 // Below, we force the typescript type to be of the dev address type.
 // This is to ensure thirdweb generate knows what the ABI is when using useContract
 // So that we get type-safety when interacting with it's functions.
-export const greeter = IS_DEV_ENV
-  ? greeter_dev
-  : (greeter_prod as typeof greeter_dev); // Here's the type assertion, since we assume the ABIs are the same in dev and prod.
+export const portfolio = IS_DEV_ENV
+  ? portfolio_dev
+  : (portfolio_prod as typeof portfolio_dev); // Here's the type assertion, since we assume the ABIs are the same in dev and prod.
