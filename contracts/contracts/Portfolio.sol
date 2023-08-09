@@ -221,7 +221,7 @@ contract Portfolio is Ownable {
         require(bytes(_newTagline).length > 0, "Tagline cannot be empty");
         // Optional: Check if the length of the new tagline is within a certain range
         require(
-            bytes(_newTagline).length <= 100,
+            bytes(_newTagline).length <= 200,
             "Tagline length exceeds the maximum allowed length"
         );
 

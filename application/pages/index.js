@@ -14,6 +14,7 @@ import Image from "next/image";
 import { MDXRemote } from "next-mdx-remote";
 import shortcodes from "@shortcodes/all";
 import portfolioService from "@lib/services/portfolio";
+import Intro from "@layouts/components/Intro";
 
 const { blog_folder, pagination } = config.settings;
 
@@ -22,7 +23,7 @@ const Home = ({
   posts,
   featured_posts,
   recent_posts,
-  categories,
+  userInfo,
   about,
 }) => {
   // define state
@@ -40,51 +41,7 @@ const Home = ({
 
   return (
     <Base>
-      {/* Banner */}
-      <section className="section banner relative pb-0">
-        <ImageFallback
-          className="absolute bottom-0 left-0 z-[-1] w-full"
-          src={"/images/banner-bg-shape.svg"}
-          width={1905}
-          height={295}
-          alt="banner-shape"
-          priority
-        />
-
-        <div className="container">
-          <div className="row flex-wrap-reverse items-center justify-center lg:flex-row">
-            <div className={banner.image_enable ? "mt-12 text-center lg:mt-0 lg:text-left lg:col-6" : "mt-12 text-center lg:mt-0 lg:text-left lg:col-12"}>
-              <div className="banner-title">
-                {markdownify(banner.title, "h1")}
-                {markdownify(banner.title_small, "span")}
-              </div>
-              {markdownify(banner.content, "p", "mt-4")}
-              {banner.button.enable && (
-                <Link
-                  className="btn btn-primary mt-6"
-                  href={banner.button.link}
-                  rel={banner.button.rel}
-                >
-                  {banner.button.label}
-                </Link>
-              )}
-            </div>
-            {banner.image_enable && (
-              <div className="col-9 lg:col-6">
-                <ImageFallback
-                  className="mx-auto object-contain"
-                  src={banner.image}
-                  width={548}
-                  height={443}
-                  priority={true}
-                  alt="Banner Image"
-                />
-              </div>
-            )}
-          </div>
-        </div>
-      </section>
-
+      <Intro userInfo={userInfo} />
       <section className="section mt-0 pt-0">
         <div className="pl-12 pr-12">
           {markdownify(title, "h1", "h1 text-left lg:text-[55px] mt-12")}
@@ -98,7 +55,7 @@ const Home = ({
               {recent_posts.enable && (
                 <div className="section pt-0 pb-0">
                   <div className="rounded border border-border px-6 pt-6 dark:border-darkmode-border">
-                  {markdownify("Education", "h2", "section-title")}
+                    {markdownify("Education", "h2", "section-title")}
                     <div className="row">
                       {sortPostByDate.slice(0, 3).map((post) => (
                         <div className="mb-8 md:col-4" key={post.slug}>
@@ -179,11 +136,9 @@ const Home = ({
 
 export default Home;
 
-// for homepage data
-export const getStaticProps = async () => {
-
-  const owner= await portfolioService.getOwner();
-  console.log("owner",owner);
+export const getServerSideProps = async () => {
+  const data = await portfolioService.getAll();
+  const userInfo = { name: data[0], tagLine: data[6],profileImage:data[2] }
   const homepage = await getListPage("content/_index.md");
   const { frontmatter } = homepage;
   const { banner, featured_posts, recent_posts, promotion } = frontmatter;
@@ -210,7 +165,8 @@ export const getStaticProps = async () => {
       recent_posts,
       promotion,
       categories: categoriesWithPostsCount,
-      about: about
+      about: about,
+      userInfo
     },
   };
-};
+}
