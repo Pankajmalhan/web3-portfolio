@@ -53,7 +53,7 @@ const Header = ({ isAdmin }) => {
             {/* header social */}
             {!isAdmin && (<Social source={socical} className="socials" />)}
             {isAdmin && <ConnectWallet
-              theme="dark"
+              theme="light"
               modalTitle="Login"
               btnTitle="Connect Wallet" />}
           </div>

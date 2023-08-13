@@ -17,7 +17,7 @@ import portfolioService from "@lib/services/portfolio";
 import Intro from "@layouts/components/Intro";
 import { useStorage } from "@thirdweb-dev/react";
 import { useEffect, useState } from "react";
-
+import { Progress } from "@material-tailwind/react";
 const { blog_folder, pagination } = config.settings;
 
 const Home = ({
@@ -116,17 +116,86 @@ const Home = ({
             </div>
             <div className="experience mt-10 lg:mt-0 lg:col-8">
               <div className="rounded border border-border p-6 dark:border-darkmode-border ">
-                {markdownify(experience.title, "h2", "section-title mb-12")}
-                <ul className="col">
-                  {experience?.list?.map((item, index) => (
-                    <li
-                      className="mb-5 text-lg font-bold text-dark dark:text-darkmode-light lg:col-6"
-                      key={"experience-" + index}
-                    >
-                      {item}
-                    </li>
-                  ))}
-                </ul>
+                {markdownify("Skills", "h2", "section-title mb-12")}
+                <div className="flex w-full bg-gray-200 rounded-full dark:bg-gray-700 mt-3">
+                  <div className="w-full bg-gray-200 rounded-full dark:bg-gray-700">
+                    <div className="bg-primary text-xs font-medium text-blue-100 text-center p-0.8 pt-0.5 pb-0.5 leading-none rounded-full" style={{ width: '80%', fontWeight: '600', color: '#fff' }}>React</div>
+                  </div>
+                </div>
+
+                <div className="flex w-full bg-gray-200 rounded-full dark:bg-gray-700 mt-3">
+                  <div className="w-full bg-gray-200 rounded-full dark:bg-gray-700">
+                    <div className="bg-primary text-xs font-medium text-blue-100 text-center p-0.8 pt-0.5 pb-0.5 leading-none rounded-full" style={{ width: '60%', fontWeight: '600', color: '#fff' }}>Node</div>
+                  </div>
+                </div>
+
+                <div className="flex w-full bg-gray-200 rounded-full dark:bg-gray-700 mt-3">
+                  <div className="w-full bg-gray-200 rounded-full dark:bg-gray-700">
+                    <div className="bg-primary text-xs font-medium text-blue-100 text-center p-0.8 pt-0.5 pb-0.5 leading-none rounded-full" style={{ width: '80%', fontWeight: '600', color: '#fff' }}>React Native</div>
+                  </div>
+                </div>
+                <div className="flex w-full bg-gray-200 rounded-full dark:bg-gray-700 mt-3">
+                  <div className="w-full bg-gray-200 rounded-full dark:bg-gray-700">
+                    <div className="bg-primary text-xs font-medium text-blue-100 text-center p-0.8 pt-0.5 pb-0.5 leading-none rounded-full" style={{ width: '70%', fontWeight: '600', color: '#fff' }}>Web3</div>
+                  </div>
+                </div>
+                <div className="flex w-full bg-gray-200 rounded-full dark:bg-gray-700 mt-3">
+                  <div className="w-full bg-gray-200 rounded-full dark:bg-gray-700">
+                    <div className="bg-primary text-xs font-medium text-blue-100 text-center p-0.8 pt-0.5 pb-0.5 leading-none rounded-full" style={{ width: '80%', fontWeight: '600', color: '#fff' }}>React</div>
+                  </div>
+                </div>
+                <div className="flex w-full bg-gray-200 rounded-full dark:bg-gray-700 mt-3">
+                  <div className="w-full bg-gray-200 rounded-full dark:bg-gray-700">
+                    <div className="bg-primary text-xs font-medium text-blue-100 text-center p-0.8 pt-0.5 pb-0.5 leading-none rounded-full" style={{ width: '40%', fontWeight: '600', color: '#fff' }}>Blockchain</div>
+                  </div>
+                </div>
+                <div className="flex w-full bg-gray-200 rounded-full dark:bg-gray-700 mt-3">
+                  <div className="w-full bg-gray-200 rounded-full dark:bg-gray-700">
+                    <div className="bg-primary text-xs font-medium text-blue-100 text-center p-0.8 pt-0.5 pb-0.5 leading-none rounded-full" style={{ width: '50%', fontWeight: '600', color: '#fff' }}>C#</div>
+                  </div>
+                </div>
+                <div className="flex w-full bg-gray-200 rounded-full dark:bg-gray-700 mt-3">
+                  <div className="w-full bg-gray-200 rounded-full dark:bg-gray-700">
+                    <div className="bg-primary text-xs font-medium text-blue-100 text-center p-0.8 pt-0.5 pb-0.5 leading-none rounded-full" style={{ width: '60%', fontWeight: '600', color: '#fff' }}>Python</div>
+                  </div>
+                </div>
+                <div className="flex w-full bg-gray-200 rounded-full dark:bg-gray-700 mt-3">
+                  <div className="w-full bg-gray-200 rounded-full dark:bg-gray-700">
+                    <div className="bg-primary text-xs font-medium text-blue-100 text-center p-0.8 pt-0.5 pb-0.5 leading-none rounded-full" style={{ width: '70%', fontWeight: '600', color: '#fff' }}>.Net</div>
+                  </div>
+                </div>
+                <div className="flex w-full bg-gray-200 rounded-full dark:bg-gray-700 mt-3">
+                  <div className="w-full bg-gray-200 rounded-full dark:bg-gray-700">
+                    <div className="bg-primary text-xs font-medium text-blue-100 text-center p-0.8 pt-0.5 pb-0.5 leading-none rounded-full" style={{ width: '60%', fontWeight: '600', color: '#fff' }}>Node</div>
+                  </div>
+                </div>
+
+                <div className="flex w-full bg-gray-200 rounded-full dark:bg-gray-700 mt-3">
+                  <div className="w-full bg-gray-200 rounded-full dark:bg-gray-700">
+                    <div className="bg-primary text-xs font-medium text-blue-100 text-center p-0.8 pt-0.5 pb-0.5 leading-none rounded-full" style={{ width: '80%', fontWeight: '600', color: '#fff' }}>React Native</div>
+                  </div>
+                </div>
+                <div className="flex w-full bg-gray-200 rounded-full dark:bg-gray-700 mt-3">
+                  <div className="w-full bg-gray-200 rounded-full dark:bg-gray-700">
+                    <div className="bg-primary text-xs font-medium text-blue-100 text-center p-0.8 pt-0.5 pb-0.5 leading-none rounded-full" style={{ width: '70%', fontWeight: '600', color: '#fff' }}>Web3</div>
+                  </div>
+                </div>
+                <div className="flex w-full bg-gray-200 rounded-full dark:bg-gray-700 mt-3">
+                  <div className="w-full bg-gray-200 rounded-full dark:bg-gray-700">
+                    <div className="bg-primary text-xs font-medium text-blue-100 text-center p-0.8 pt-0.5 pb-0.5 leading-none rounded-full" style={{ width: '80%', fontWeight: '600', color: '#fff' }}>React</div>
+                  </div>
+                </div>
+                <div className="flex w-full bg-gray-200 rounded-full dark:bg-gray-700 mt-3">
+                  <div className="w-full bg-gray-200 rounded-full dark:bg-gray-700">
+                    <div className="bg-primary text-xs font-medium text-blue-100 text-center p-0.8 pt-0.5 pb-0.5 leading-none rounded-full" style={{ width: '40%', fontWeight: '600', color: '#fff' }}>Blockchain</div>
+                  </div>
+                </div>
+                <div className="flex w-full bg-gray-200 rounded-full dark:bg-gray-700 mt-3">
+                  <div className="w-full bg-gray-200 rounded-full dark:bg-gray-700">
+                    <div className="bg-primary text-xs font-medium text-blue-100 text-center p-0.8 pt-0.5 pb-0.5 leading-none rounded-full" style={{ width: '50%', fontWeight: '600', color: '#fff' }}>C#</div>
+                  </div>
+                </div>
+
               </div>
             </div>
           </div>
