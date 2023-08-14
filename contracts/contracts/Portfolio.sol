@@ -25,7 +25,7 @@ contract Portfolio is Ownable {
         string name;
         string degree;
         string year;
-        uint percentage;
+        uint8 percentage;
     }
 
     // struct for experience with name, role, url, and year
@@ -375,7 +375,7 @@ contract Portfolio is Ownable {
         string memory name,
         string memory degree,
         string memory year,
-        uint percentage
+        uint8 percentage
     ) public onlyOwner {
         require(bytes(name).length > 0, "Name cannot be empty");
         require(bytes(degree).length > 0, "Degree cannot be empty");
@@ -387,7 +387,7 @@ contract Portfolio is Ownable {
             "Percentage must be between 0 and 100"
         );
 
-        _education.push(Education(_name, degree, year, percentage));
+        _education.push(Education(name, degree, year, percentage));
     }
 
     // Write function to get education
@@ -417,7 +417,7 @@ contract Portfolio is Ownable {
         string memory name,
         string memory _degree,
         string memory _year,
-        uint _percentage
+        uint8 _percentage
     ) public onlyOwner {
         require(_index < _education.length, "Invalid index");
         require(bytes(name).length > 0, "Name cannot be empty");

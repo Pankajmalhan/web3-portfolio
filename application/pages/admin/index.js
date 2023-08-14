@@ -2,8 +2,9 @@ import config from "@config/config.json";
 import Base from "@layouts/Baseof";
 import NoWallet from "@layouts/components/NoWallet";
 import TabSection from "@layouts/components/TabSection";
+import Education from "@layouts/components/admin/Education";
 import Profile from "@layouts/components/admin/Profile";
-import { markdownify } from "@lib/utils/textConverter";
+import DescSkills from "@layouts/components/admin/Skill";
 import { useAddress, useChain, useConnectionStatus, useNetwork, useNetworkMismatch } from "@thirdweb-dev/react";
 import { useState } from "react";
 const { blog_folder, summary_length } = config.settings;
@@ -29,6 +30,8 @@ const Admin = () => {
         <div className="container">
           {address && <TabSection activeTab={activeTab} setActiveTab={setActiveTab} />}
           {activeTab === "Profile" && <Profile />}
+          {activeTab === "About & Skill" && <DescSkills />}
+          {activeTab === "Education" && <Education />}
         </div>
       </section>
     </Base>
