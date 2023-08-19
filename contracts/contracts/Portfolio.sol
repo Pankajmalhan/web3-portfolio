@@ -1,10 +1,15 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.11;
-import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
+import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
+import "@openzeppelin/contracts/utils/Address.sol";
 
-contract Portfolio is Ownable {
-    // Internal state to the contract
-    address private _owner;
+contract Portfolio is
+    Initializable,
+    OwnableUpgradeable,
+    UUPSUpgradeable
+{
 
     // personal data
     string private _name;
@@ -36,17 +41,21 @@ contract Portfolio is Ownable {
         string year;
     }
 
-
     // array of Experience structs
     Experience[] private _experience;
 
     // array of Education structs
     Education[] private _education;
 
-
     // Constructor - run when contract is deployed
-    constructor(){
+    function initialize() public initializer {
+        __Ownable_init();
+        __UUPSUpgradeable_init();
     }
+
+   function _authorizeUpgrade(address newImplementation) internal override onlyOwner {
+}
+
 
     // Write function to update name
     function setName(string memory _newName) public onlyOwner {
@@ -60,7 +69,7 @@ contract Portfolio is Ownable {
 
     // Read function to get name
     function getName() public view returns (string memory) {
-        return _name;
+        return "test user";
     }
 
     // Write function to update description
@@ -170,7 +179,6 @@ contract Portfolio is Ownable {
     function getEmail() public view returns (string memory) {
         return _email;
     }
-
 
     // Optional: A simple validation for valid separators (not suitable for all cases)
     function isValidSeparator(bytes1 _char) internal pure returns (bool) {
@@ -393,11 +401,7 @@ contract Portfolio is Ownable {
     // Write function to get education
     function getEducation(
         uint256 _index
-    )
-        public
-        view
-        returns (string memory, string memory, string memory, uint)
-    {
+    ) public view returns (string memory, string memory, string memory, uint) {
         return (
             _education[_index].name,
             _education[_index].degree,
@@ -414,13 +418,13 @@ contract Portfolio is Ownable {
     // Write function to update education
     function updateEducation(
         uint256 _index,
-        string memory name,
+        string memory _name,
         string memory _degree,
         string memory _year,
         uint8 _percentage
     ) public onlyOwner {
         require(_index < _education.length, "Invalid index");
-        require(bytes(name).length > 0, "Name cannot be empty");
+        require(bytes(_name).length > 0, "Name cannot be empty");
         require(bytes(_degree).length > 0, "Degree cannot be empty");
         require(bytes(_year).length > 0, "Year cannot be empty");
 
@@ -438,7 +442,16 @@ contract Portfolio is Ownable {
 
     // Write function to delete education
     function deleteEducation(uint256 _index) public onlyOwner {
-        delete _education[_index];
+        require(_index < _education.length, "Invalid index");
+        // Move the last element to the deleted index
+        uint256 lastIndex = _education.length - 1;
+        _education[_index] = _education[lastIndex];
+
+        // Clear the last element, making the array compact
+        delete _education[lastIndex];
+
+        // Reduce the array length by one
+        _education.pop();
     }
 
     // Write function to get all education
@@ -519,5 +532,4 @@ contract Portfolio is Ownable {
     function getAllExperience() public view returns (Experience[] memory) {
         return _experience;
     }
-
 }

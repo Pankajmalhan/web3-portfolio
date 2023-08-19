@@ -6,10 +6,11 @@ import Spinner from "../Spinner";
 import EducationForm from "../EducationForm";
 
 const Education = ({ }) => {
-    const [desc, setDesc] = useState("");
     const { contract } = useContract(portfolio);
-    const { data, isLoading, error } = useContractRead(contract, "getAllEducation");
-    const { mutateAsync: setDescriptionMutateAsync, isLoading: setDescriptionIsLoading, error: setDescriptionError } = useContractWrite(contract, "setDescription");
+    const { data, isLoading, error, refetch } = useContractRead(contract, "getAllEducation");
+    const { mutateAsync: setEducationMutateAsync, isLoading: setEducationIsLoading, error: setEducationError } = useContractWrite(contract, "addEducation");
+    const { mutateAsync: deleteEducationMutateAsync, isLoading: deleteEducationIsLoading, error: deleteEducationError } = useContractWrite(contract, "deleteEducation");
+    const { mutateAsync: updateEducationMutateAsync, isLoading: updateEducationIsLoading, error: updateEducationError } = useContractWrite(contract, "updateEducation");
     const [educations, setEducations] = useState([]);
 
     useEffect(() => {
@@ -18,31 +19,40 @@ const Education = ({ }) => {
         }
     }, [data]);
 
-    if (isLoading || setDescriptionIsLoading) {
+    if (isLoading || setEducationIsLoading || updateEducationIsLoading || deleteEducationIsLoading) {
         return <Spinner />
     }
 
-    const addMore = () => {
-        const lastEducation = educations[educations.length - 1];
-        console.log({ lastEducation });
-        if (lastEducation.length === 0 || (lastEducation?.name && lastEducation?.degree && lastEducation?.year && lastEducation?.percentage)) {
-            educations.push({ name: "", instituteName: "", year: "", setPercentage: 0, isNew: true });
-            setEducations(educations);
+    const addUpdateEducation = (id, isNew, instituteName, degreeName, year, percentage) => {
+        if (degreeName, instituteName, year, percentage) {
+            updateEducationMutateAsync({ args: [id, instituteName, degreeName, year, parseInt(percentage)] });
+        } else {
+            alert("Please fill all the fields");
         }
     }
 
+    const addEducation = (id, isNew, name, instituteName, year, percentage) => {
+        console.log({ name, instituteName, year, percentage });
+        if (name, instituteName, year, percentage) {
+            setEducationMutateAsync({ args: [name, instituteName, year, parseInt(percentage)] });
+        } else {
+            alert("Please fill all the fields");
+        }
+    }
+
+    const deleteEducation = (id) => {
+        deleteEducationMutateAsync({ args: [parseInt(id)] });
+    }
+
+    console.log({ educations })
     return <>
         <section className="mt-10 pt-5">
-            <h2>Share Your Education</h2>
-            {educations.map((item, index) => <EducationForm {...item} />)}
-            <div className="mt-4">
-                <button
-                    type="button"
-                    onClick={addMore}
-                    className="text-white bg-primary hover:bg-primary focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-lg px-5 py-2.5 ml-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                    Add More
-                </button>
-            </div>
+            <h2 className="mb-4">Share Your Education</h2>
+            {educations.length > 0 && <span className="bg-green-100 text-green-800 text-lg font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300 mt-4">Already Added</span>}
+            {educations.map((item, index) => <EducationForm id={index} {...item} addUpdateEducation={addUpdateEducation} deleteEducation={deleteEducation} />)}
+            <br />
+            <span className="bg-blue-100 text-blue-800 text-lg font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300 mt-4">Add New One</span>
+            <EducationForm isNew={true} addUpdateEducation={addEducation} />
         </section>
     </>
 }

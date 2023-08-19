@@ -10,6 +10,26 @@
     {
       "address": "0x37dD26d18abeC2d311e82177f9fa58E9DC14b579",
       "chainId": 1337
+    },
+    {
+      "address": "0x72ed6e892932c90cDF3c2FDC436d06db4aF23EEC",
+      "chainId": 1337
+    },
+    {
+      "address": "0xb2AA9bf762878462382A34eB4EC1f041E0071081",
+      "chainId": 1337
+    },
+    {
+      "address": "0x62DB6c1678Ca81ea0d946EA3dd75b4F71421A2aE",
+      "chainId": 1337
+    },
+    {
+      "address": "0x322619fcCcc741880ee7071cBE4e877Fb919eCf8",
+      "chainId": 1337
+    },
+    {
+      "address": "0xAE17B5B870fA5DD28Eb444D30B7862BfAd84882B",
+      "chainId": 1337
     }
   ]
 }

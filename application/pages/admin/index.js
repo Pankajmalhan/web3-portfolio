@@ -3,6 +3,7 @@ import Base from "@layouts/Baseof";
 import NoWallet from "@layouts/components/NoWallet";
 import TabSection from "@layouts/components/TabSection";
 import Education from "@layouts/components/admin/Education";
+import Experience from "@layouts/components/admin/Experience";
 import Profile from "@layouts/components/admin/Profile";
 import DescSkills from "@layouts/components/admin/Skill";
 import { useAddress, useChain, useConnectionStatus, useNetwork, useNetworkMismatch } from "@thirdweb-dev/react";
@@ -32,6 +33,7 @@ const Admin = () => {
           {activeTab === "Profile" && <Profile />}
           {activeTab === "About & Skill" && <DescSkills />}
           {activeTab === "Education" && <Education />}
+          {activeTab === "Experience" && <Experience />}
         </div>
       </section>
     </Base>
