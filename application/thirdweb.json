@@ -30,6 +30,10 @@
     {
       "address": "0xAE17B5B870fA5DD28Eb444D30B7862BfAd84882B",
       "chainId": 1337
+    },
+    {
+      "address": "0xC2469d565A2DC77f4a496Ff5e3B25ED69Ea8AB6b",
+      "chainId": 1337
     }
   ]
 }

@@ -55,11 +55,8 @@ const DescSkills = ({ }) => {
         try {
             setIsLoading(true);
             const dataToUpload = { desc, skills };
-            console.log("**uploadFile**");
             const response = await storage?.upload(JSON.stringify(dataToUpload), { contentType: "application/json" });
-            console.log("**setDescriptionMutateAsync**");
             setDescriptionMutateAsync({ args: [response] });
-            console.log("**setDescriptionMutateAsync Done**");
         } catch (exp) {
             console.log("error in uploadFile");
             console.log(exp);

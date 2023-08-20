@@ -67,7 +67,6 @@ const Home = ({
     }
   }, []);
 
-  console.log({ mdxContent });
   return (
     <Base>
       <Intro userInfo={userInfo} />

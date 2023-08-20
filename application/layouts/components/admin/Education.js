@@ -32,7 +32,6 @@ const Education = ({ }) => {
     }
 
     const addEducation = (id, isNew, name, instituteName, year, percentage) => {
-        console.log({ name, instituteName, year, percentage });
         if (name, instituteName, year, percentage) {
             setEducationMutateAsync({ args: [name, instituteName, year, parseInt(percentage)] });
         } else {
@@ -44,7 +43,6 @@ const Education = ({ }) => {
         deleteEducationMutateAsync({ args: [parseInt(id)] });
     }
 
-    console.log({ educations })
     return <>
         <section className="mt-10 pt-5">
             <h2 className="mb-4">Share Your Education</h2>

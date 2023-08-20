@@ -12,14 +12,13 @@ const Intro = ({ userInfo }) => {
     
     const downloadInfo=async()=>{
         const response=await storage?.download(userInfo.description);
-        console.log({response},response.body);
-        const desc=await response._bodyBlob.text();
+        const desc=await response._bodyBlob?.text() ||"";
         if(desc){
             const data=JSON.parse(desc);
             setDesc(data.desc);
         }
     }
-    console.log({desc});
+
     useEffect(() => {
         if (userInfo) {
            downloadInfo();

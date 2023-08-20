@@ -3,7 +3,6 @@ const { ethers, upgrades } = require("hardhat");
 async function main() {
     const Portfolio = await ethers.getContractFactory("Portfolio");
     const portfolio = await upgrades.deployProxy(Portfolio);
-    console.log("portfolio deployed to:", portfolio);
 }
 
 main()

@@ -1,10 +1,19 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const ExperienceForm = (props) => {
     const [name, setName] = useState(props.name);
     const [role, setRole] = useState(props.role);
     const [year, setYear] = useState(props.year);
     const [url, setUrl] = useState(props.url);
+
+    useEffect(() => {
+        // Update the state when props change
+        setName(props.name);
+        setRole(props.role);
+        setYear(props.year);
+        setUrl(props.url);
+    }, [props.name, props.role, props.year, props.url]);
+
     return <div key={props.name} className="mt-4 block p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700" key={props.id}>
         <div className="mb-6 flex items-center mt-4">
             <div className="w-1/2 mr-5">

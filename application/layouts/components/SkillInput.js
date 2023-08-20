@@ -1,7 +1,6 @@
 import { useState } from "react";
 
 const SkillInput = (props) => {
-    console.log({ props });
     const [name, setName] = useState(props.name);
     const [level, setLevel] = useState(props.level);
 

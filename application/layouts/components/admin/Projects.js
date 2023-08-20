@@ -1,10 +1,9 @@
 import { useContract, useContractRead, useContractWrite } from "@thirdweb-dev/react";
 import { portfolio } from "const/contracts";
 import { useEffect, useState } from "react";
-import Spinner from "../Spinner";
-import ExperienceForm from "../ExperienceForm";
+import Link from 'next/link';
 
-const Experience = ({ }) => {
+const Projects = ({ }) => {
     const { contract } = useContract(portfolio);
     const { data, isLoading, error, refetch } = useContractRead(contract, "getAllExperience");
     const { mutateAsync: setExperienceMutateAsync, isLoading: setExperienceIsLoading, error: setExperienceError } = useContractWrite(contract, "addExperience");
@@ -17,10 +16,6 @@ const Experience = ({ }) => {
             setExperience(data.map((item) => ({ ...item, isNew: false })));
         }
     }, [data]);
-
-    if (isLoading || setExperienceIsLoading || updateExperienceIsLoading || deleteExperienceIsLoading) {
-        return <Spinner />
-    }
 
     const updateExperience = (id, name, role, url, year) => {
         if (id >= 0 && name && role && url && year) {
@@ -45,14 +40,19 @@ const Experience = ({ }) => {
     }
     return <>
         <section className="mt-10 pt-5">
-            <h2 className="mb-4">Share Your Experience</h2>
-            {experience.length > 0 && <span className="bg-green-100 text-green-800 text-lg font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300 mt-4">Already Added</span>}
-            {experience.map((item, index) => <ExperienceForm id={index} {...item} addExperience={updateExperience} deleteExperience={deleteExperience} />)}
-            <br />
-            <span className="bg-blue-100 text-blue-800 text-lg font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300 mt-4">Add New One</span>
-            <ExperienceForm isNew={true} addExperience={addExperience} />
+            <h2 className="mb-4">Share Your Projects</h2>
+            <div className="mb-6 flex items-center mt-4">
+                <Link href="/admin/projects/add">
+                    <button
+                        type="button"
+                        className="text-white bg-primary hover:bg-primary focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-lg px-5 py-2.5 ml-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                        Add Project
+                    </button>
+                </Link>
+
+            </div>
         </section>
     </>
 }
 
-export default Experience;
+export default Projects;
