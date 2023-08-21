@@ -6,7 +6,7 @@ import Education from "@layouts/components/admin/Education";
 import Experience from "@layouts/components/admin/Experience";
 import Profile from "@layouts/components/admin/Profile";
 import DescSkills from "@layouts/components/admin/Skill";
-import Projects from "@layouts/components/admin/projects";
+import ProjectDashBoard from "@layouts/components/admin/projects";
 import { useAddress, useChain, useConnectionStatus, useNetwork, useNetworkMismatch } from "@thirdweb-dev/react";
 import { useState } from "react";
 const { blog_folder, summary_length } = config.settings;
@@ -21,7 +21,7 @@ const Admin = () => {
     return <Base isAdmin={true}>
       <section className="section">
         <div className="container">
-        <NoWallet isMismatched={isMismatched} />
+          <NoWallet isMismatched={isMismatched} />
         </div>
       </section>
     </Base>
@@ -35,7 +35,7 @@ const Admin = () => {
           {activeTab === "About & Skill" && <DescSkills />}
           {activeTab === "Education" && <Education />}
           {activeTab === "Experience" && <Experience />}
-          {activeTab === "Projects" && <Projects />}
+          {activeTab === "Projects" && <ProjectDashBoard />}
         </div>
       </section>
     </Base>

@@ -15,9 +15,10 @@ import { MDXRemote } from "next-mdx-remote";
 import shortcodes from "@shortcodes/all";
 import portfolioService from "@lib/services/portfolio";
 import Intro from "@layouts/components/Intro";
-import { useStorage } from "@thirdweb-dev/react";
+import { useContract, useContractRead, useStorage } from "@thirdweb-dev/react";
 import { useEffect, useState } from "react";
 import { Progress } from "@material-tailwind/react";
+import { projects } from "const/contracts";
 const { blog_folder, pagination } = config.settings;
 
 const Home = ({
@@ -34,7 +35,7 @@ const Home = ({
     (post) => post.frontmatter.featured
   );
   const showPosts = pagination;
-
+  const { contract } = useContract(projects);
   const orderedPosts = sortByDate(posts);
   const currentPosts = orderedPosts.slice(0, 10);
 
@@ -44,6 +45,14 @@ const Home = ({
   const [desc, setDesc] = useState("");
   const [skills, setSkills] = useState([]);
   const storage = useStorage();
+  const [allProject, setAllProjects] = useState([]);
+  const { data, isLoading, error, refetch } = useContractRead(contract, "getAllTokenUris");
+  useEffect(() => {
+    if (data) {
+      setAllProjects(data.filter(project => project));
+    }
+  }, [data]);
+
   // destructuring items from config object
 
   const downloadInfo = async () => {
@@ -134,20 +143,18 @@ const Home = ({
           <div className="row items-start">
             <div className="mb-12 lg:mb-0 lg:col-12">
               {/* Recent Posts */}
-              {recent_posts.enable && (
-                <div className="section pt-0">
-                  {markdownify(recent_posts.title, "h2", "section-title")}
-                  <div className="rounded border border-border px-6 pt-6 dark:border-darkmode-border">
-                    <div className="row">
-                      {sortPostByDate.slice(0, showPosts).map((post) => (
-                        <div className="mb-8 md:col-6" key={post.slug}>
-                          <Post post={post} />
-                        </div>
-                      ))}
-                    </div>
+              <div className="section pt-0">
+                {markdownify(recent_posts.title, "h2", "section-title")}
+                <div className="rounded border border-border px-6 pt-6 dark:border-darkmode-border">
+                  <div className="row">
+                    {allProject.map((ipfsUri) => (
+                      <div className="mb-8 md:col-6" key={ipfsUri}>
+                        <Post ipfsUri={ipfsUri} />
+                      </div>
+                    ))}
                   </div>
                 </div>
-              )}
+              </div>
             </div>
           </div>
         </div>
@@ -192,3 +199,4 @@ export const getServerSideProps = async () => {
     },
   };
 }
+

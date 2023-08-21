@@ -1,43 +1,22 @@
-import { useContract, useContractRead, useContractWrite } from "@thirdweb-dev/react";
-import { portfolio } from "const/contracts";
+import { useAddress, useContract, useContractRead } from "@thirdweb-dev/react";
+import { projects } from "const/contracts";
 import { useEffect, useState } from "react";
 import Link from 'next/link';
+import Post from "@layouts/partials/Post";
+import { markdownify } from "@lib/utils/textConverter";
 
-const Projects = ({ }) => {
-    const { contract } = useContract(portfolio);
-    const { data, isLoading, error, refetch } = useContractRead(contract, "getAllExperience");
-    const { mutateAsync: setExperienceMutateAsync, isLoading: setExperienceIsLoading, error: setExperienceError } = useContractWrite(contract, "addExperience");
-    const { mutateAsync: deleteExperienceMutateAsync, isLoading: deleteExperienceIsLoading, error: deleteExperienceError } = useContractWrite(contract, "deleteExperience");
-    const { mutateAsync: updateExperienceMutateAsync, isLoading: updateExperienceIsLoading, error: updateExperienceError } = useContractWrite(contract, "updateExperience");
-    const [experience, setExperience] = useState([]);
-
+const ProjectDashBoard = ({ }) => {
+    const { contract } = useContract(projects);
+    const address = useAddress();
+    const { data, isLoading, error, refetch } = useContractRead(contract, "getAllTokenUris");
+    const [allProject, setAllProjects] = useState([]);
     useEffect(() => {
         if (data) {
-            setExperience(data.map((item) => ({ ...item, isNew: false })));
+            setAllProjects(data.filter(project => project));
         }
     }, [data]);
 
-    const updateExperience = (id, name, role, url, year) => {
-        if (id >= 0 && name && role && url && year) {
-            updateExperienceMutateAsync({ args: [id, name, role, url, year] });
-        } else {
-            alert("Please fill all the fields");
-        }
-    }
-
-    const addExperience = async (id, isNew, name, role, url, year) => {
-        if (name && role && url && year) {
-            setExperienceMutateAsync({ args: [name, role, url, year] });
-            const data = await refetch();
-            setExperience([...data.map((item) => ({ ...item, isNew: false }))]);
-        } else {
-            alert("Please fill all the fields");
-        }
-    }
-
-    const deleteExperience = (id) => {
-        deleteExperienceMutateAsync({ args: [parseInt(id)] });
-    }
+    console.log("pankaj", address,  allProject )
     return <>
         <section className="mt-10 pt-5">
             <h2 className="mb-4">Share Your Projects</h2>
@@ -49,10 +28,30 @@ const Projects = ({ }) => {
                         Add Project
                     </button>
                 </Link>
-
             </div>
+            <section className="sectio mt-0 pt-0">
+                <div className="pl-12 pr-12">
+                    <div className="row items-start">
+                        <div className="mb-12 lg:mb-0 lg:col-12">
+                            {/* Recent Posts */}
+                            <div className="section pt-0">
+                                {markdownify("Existing Projects", "h2", "section-title")}
+                                <div className="rounded border border-border px-6 pt-6 dark:border-darkmode-border">
+                                    <div className="row">
+                                        {allProject.map((ipfsUri) => (
+                                            <div className="mb-8 md:col-6" key={ipfsUri}>
+                                                <Post ipfsUri={ipfsUri} />
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </section>
     </>
 }
 
-export default Projects;
+export default ProjectDashBoard;

@@ -17,7 +17,15 @@ contract Projects is ERC721, ERC721Enumerable, ERC721Burnable, Ownable {
         _baseUri= "https://cloudflare-ipfs.com/ipfs/";
     }
 
-
+    function getAllTokenUris() public  view returns (string[] memory) {
+        uint256 total = _tokenIds.current();
+        string[] memory tokenUris = new string[](total);
+        for (uint256 i = 0; i < total; i++) {
+            tokenUris[i] = _tokenURIs[i];
+        }
+        return tokenUris;
+    }
+        
     function _baseURI() internal view override returns (string memory) {
         return _baseUri;
     }
@@ -61,7 +69,10 @@ contract Projects is ERC721, ERC721Enumerable, ERC721Burnable, Ownable {
         override(ERC721)
         returns (string memory)
     {
-        return super.tokenURI(tokenId);
+        _requireMinted(tokenId);
+        string memory baseURI = _baseURI();
+        string memory tokenuri = _tokenURIs[tokenId];
+        return string(abi.encodePacked(baseURI, tokenuri));
     }
 
     function supportsInterface(bytes4 interfaceId)

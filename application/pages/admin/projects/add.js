@@ -1,17 +1,14 @@
-import { useContract, useContractRead, useContractWrite, useStorage } from "@thirdweb-dev/react";
-import { portfolio } from "const/contracts";
+import { useAddress, useContract, useContractRead, useContractWrite, useStorage } from "@thirdweb-dev/react";
+import { projects } from "const/contracts";
 import { useEffect, useState } from "react";
 import Base from "@layouts/Baseof";
 import { useRouter } from 'next/router';
 const AddProject = ({ }) => {
     const router = useRouter();
-    const { contract } = useContract(portfolio);
-    const { data, isLoading, error, refetch } = useContractRead(contract, "getAllExperience");
+    const { contract } = useContract(projects);
     const storage = useStorage();
-    const { mutateAsync: setExperienceMutateAsync, isLoading: setExperienceIsLoading, error: setExperienceError } = useContractWrite(contract, "addExperience");
-    const { mutateAsync: deleteExperienceMutateAsync, isLoading: deleteExperienceIsLoading, error: deleteExperienceError } = useContractWrite(contract, "deleteExperience");
-    const { mutateAsync: updateExperienceMutateAsync, isLoading: updateExperienceIsLoading, error: updateExperienceError } = useContractWrite(contract, "updateExperience");
-    const [experience, setExperience] = useState([]);
+    const address = useAddress();
+    const { mutateAsync: setSafeMintMutateAsync, isLoading: setSafeMintIsLoading, error: setSafeMintError } = useContractWrite(contract, "safeMint");
     const [name, setName] = useState("");
     const [duration, setDuration] = useState("");
     const [organization, setOrganization] = useState("");
@@ -20,34 +17,6 @@ const AddProject = ({ }) => {
     const [github, setGithub] = useState("");
     const [description, setDescription] = useState("");
     const [role, setRole] = useState("");
-
-    useEffect(() => {
-        if (data) {
-            setExperience(data.map((item) => ({ ...item, isNew: false })));
-        }
-    }, [data]);
-
-    const updateExperience = (id, name, role, url, year) => {
-        if (id >= 0 && name && role && url && year) {
-            updateExperienceMutateAsync({ args: [id, name, role, url, year] });
-        } else {
-            alert("Please fill all the fields");
-        }
-    }
-
-    const addExperience = async (id, isNew, name, role, url, year) => {
-        if (name && role && url && year) {
-            setExperienceMutateAsync({ args: [name, role, url, year] });
-            const data = await refetch();
-            setExperience([...data.map((item) => ({ ...item, isNew: false }))]);
-        } else {
-            alert("Please fill all the fields");
-        }
-    }
-
-    const deleteExperience = (id) => {
-        deleteExperienceMutateAsync({ args: [parseInt(id)] });
-    }
     const handleGoBack = () => {
         router.back(); // Navigates back to the previous page
     };
@@ -55,7 +24,6 @@ const AddProject = ({ }) => {
     const saveProject = async () => {
         const imageInput = document.getElementById('file');
         const imageFile = imageInput.files[0];
-        console.log(imageFile)
         if (name && description && duration && organization && environment && imageFile) {
             if (imageFile.type === "image/jpeg" || imageFile.type === "image/png" || imageFile.type === "image/jpg" || imageFile.type === "image/gif" || imageFile.type === "image/svg") {
                 console.log("uploading project image to ipfs")
@@ -82,7 +50,11 @@ const AddProject = ({ }) => {
                         }]
                     }
                     const metaDataResponse = await storage?.upload(JSON.stringify(metaData), { contentType: "application/json" });
-                    console.log(metaDataResponse)
+                    if (metaDataResponse) {
+                        console.log("minting project",address, metaDataResponse.replace("ipfs://",""));
+                        await setSafeMintMutateAsync({ args: [address, metaDataResponse.replace("ipfs://","")] });
+                        handleGoBack();
+                    }
                 }
             } else {
                 alert("image type is not valid")
