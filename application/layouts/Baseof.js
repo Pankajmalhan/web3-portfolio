@@ -13,12 +13,17 @@ const Base = ({
   noindex,
   canonical,
   children,
-  isAdmin
+  isAdmin,
+  github,
+  linkedin,
+  email,
+  phone,
+  tagLine
 }) => {
   const { meta_image, meta_author, meta_description } = config.metadata;
   const { base_url } = config.site;
   const router = useRouter();
-
+  console.log({github})
   return (
     <>
       <Head>
@@ -90,10 +95,10 @@ const Base = ({
         />
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
-      <Header isAdmin={isAdmin}/>
+      <Header isAdmin={isAdmin} github={github} linkedin={linkedin} email={email} phone={phone}/>
       {/* main site */}
       <main>{children}</main>
-      <Footer />
+      <Footer github={github} linkedin={linkedin} email={email} phone={phone} tagLine={tagLine}/>
     </>
   );
 };

@@ -12,11 +12,9 @@ const ProjectDashBoard = ({ }) => {
     const [allProject, setAllProjects] = useState([]);
     useEffect(() => {
         if (data) {
-            setAllProjects(data.filter(project => project));
+            setAllProjects(data.map((uri, index) => ({ uri, id:index })).filter(project => project.uri));
         }
     }, [data]);
-
-    console.log("pankaj", address,  allProject )
     return <>
         <section className="mt-10 pt-5">
             <h2 className="mb-4">Share Your Projects</h2>
@@ -38,9 +36,9 @@ const ProjectDashBoard = ({ }) => {
                                 {markdownify("Existing Projects", "h2", "section-title")}
                                 <div className="rounded border border-border px-6 pt-6 dark:border-darkmode-border">
                                     <div className="row">
-                                        {allProject.map((ipfsUri) => (
-                                            <div className="mb-8 md:col-6" key={ipfsUri}>
-                                                <Post ipfsUri={ipfsUri} />
+                                        {allProject.map((project) => (
+                                            <div className="mb-8 md:col-6" key={project.uri}>
+                                                <Post ipfsUri={project.uri} id={project.id} showDelete={true} />
                                             </div>
                                         ))}
                                     </div>

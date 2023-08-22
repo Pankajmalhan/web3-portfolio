@@ -10,7 +10,7 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { IoSearch } from "react-icons/io5";
 
-const Header = ({ isAdmin }) => {
+const Header = ({ isAdmin, linkedin, github, email,phone }) => {
   // distructuring the main menu from menu object
   const [showMenu, setShowMenu] = useState(false);
 
@@ -51,13 +51,12 @@ const Header = ({ isAdmin }) => {
               </svg>
             </button>
             {/* header social */}
-            {!isAdmin && (<Social source={socical} className="socials" />)}
+            {!isAdmin && (<Social source={{ linkedin, github, email,phone }} className="socials" />)}
             {isAdmin && <ConnectWallet
               theme="light"
               modalTitle="Login"
               btnTitle="Connect Wallet" />}
           </div>
-          <ThemeSwitcher />
           {/* Header search */}
           <button
             onClick={() => setShowMenu(!showMenu)}

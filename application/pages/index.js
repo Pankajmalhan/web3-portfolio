@@ -77,7 +77,7 @@ const Home = ({
   }, []);
 
   return (
-    <Base>
+    <Base github={userInfo.github} linkedin={userInfo.linkedin} email={userInfo.email} phone={userInfo.phone} tagLine={userInfo.tagLine}>
       <Intro userInfo={userInfo} />
       <section className="section mt-0 pt-0">
         <div className="pl-12 pr-12">
@@ -167,7 +167,7 @@ export default Home;
 
 export const getServerSideProps = async () => {
   const data = await portfolioService.getAll();
-  const userInfo = { name: data[0], tagLine: data[6], profileImage: data[2], description: data[1], resume: data[3], email: data[4], phone: data[5] }
+  const userInfo = { name: data[0], tagLine: data[6], profileImage: data[2], description: data[1], resume: data[3], email: data[4], phone: data[5], github:data[7], linkedin:data[8]}
   const homepage = await getListPage("content/_index.md");
   const { frontmatter } = homepage;
   const { banner, featured_posts, recent_posts, promotion } = frontmatter;

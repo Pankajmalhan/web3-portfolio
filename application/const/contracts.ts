@@ -12,7 +12,7 @@ import { IS_DEV_ENV } from "./chains";
 const portfolio_dev = "0x73511669fd4dE447feD18BB79bAFeAC93aB7F31f";
 const portfolio_prod = "";
 
-const projects_dev = "0x9809d9D94b0B3380db38b1e1a06047a2964e0041"
+const projects_dev = "0x09E38B218b3C2e8F4AAB7c9e9a610BC6972f630D"
 const projects_prod = ""
 // Below, we force the typescript type to be of the dev address type.
 // This is to ensure thirdweb generate knows what the ABI is when using useContract

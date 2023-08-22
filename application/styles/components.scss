@@ -184,8 +184,13 @@ footer .socials {
 
 .post {
   img {
-    width: 100%;
-    height: auto;
+    width: 100% !important;
+    height: 400px !important;
+    max-height: 400px !important;
+    object-fit: fill !important;
+  }
+  p{
+    word-wrap: break-word; 
   }
 }
 

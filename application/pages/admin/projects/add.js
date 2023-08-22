@@ -37,22 +37,34 @@ const AddProject = ({ }) => {
                         external_url: url,
                         attributes: [{
                             "trait_type": "Github",
-                            "value": "github"
-                        }, {
+                            "value": github
+                        },
+                        {
                             "trait_type": "Organization",
                             "value": organization
-                        }, {
+                        },
+                        {
                             "trait_type": "Url",
                             "value": url
-                        }, {
+                        },
+                        {
                             "trait_type": "Environment",
                             "value": environment
-                        }]
+                        },
+                        {
+                            "trait_type": "Duration",
+                            "value": duration
+                        },
+                        {
+                            "trait_type": "Role",
+                            "value": role
+                        }
+                        ]
                     }
                     const metaDataResponse = await storage?.upload(JSON.stringify(metaData), { contentType: "application/json" });
                     if (metaDataResponse) {
-                        console.log("minting project",address, metaDataResponse.replace("ipfs://",""));
-                        await setSafeMintMutateAsync({ args: [address, metaDataResponse.replace("ipfs://","")] });
+                        console.log("minting project", address, metaDataResponse.replace("ipfs://", ""));
+                        await setSafeMintMutateAsync({ args: [metaDataResponse.replace("ipfs://", "")] });
                         handleGoBack();
                     }
                 }

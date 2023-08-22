@@ -16,7 +16,7 @@ const Profile = () => {
 
     const { mutateAsync: setResumeMutateAsync, isLoading: setResumeIsLoading, error: setResumeError } = useContractWrite(contract, "setResume");
     const { mutateAsync: setGithubMutateAsync, isLoading: setGithubIsLoading, error: setGithubError } = useContractWrite(contract, "setGithub");
-    const { mutateAsync: setLinkedinMutateAsync, isLoading: setLinkedinIsLoading, error: setLinkedinError } = useContractWrite(contract, "Linkedin");
+    const { mutateAsync: setLinkedinMutateAsync, isLoading: setLinkedinIsLoading, error: setLinkedinError } = useContractWrite(contract, "setLinkedin");
     const { mutateAsync: setImageMutateAsync, isLoading: setImageIsLoading, error: setImageError } = useContractWrite(contract, "setImage");
 
     const [profileName, setProfileName] = useState("");

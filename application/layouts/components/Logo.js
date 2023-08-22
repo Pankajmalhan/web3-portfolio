@@ -18,15 +18,11 @@ const Logo = ({ src }) => {
         <ImageFallback
           width={logo_width.replace("px", "") * 2}
           height={logo_height.replace("px", "") * 2}
-          src={
-            mounted && (theme === "dark" || resolvedTheme === "dark")
-              ? logo_white
-              : logo
-          }
+          src={"/images/logo3.png"}
           alt={title}
           priority
           style={{
-            height: logo_height.replace("px", "") + "px",
+            height: 120 + "px",
             width: logo_width.replace("px", "") + "px",
           }}
           className={"m-auto"}

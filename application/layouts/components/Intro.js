@@ -24,6 +24,7 @@ const Intro = ({ userInfo }) => {
            downloadInfo();
         }
     }, []);
+    
     return (
         <section className="section banner relative pb-0">
             <ImageFallback
