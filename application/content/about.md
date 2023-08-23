@@ -4,7 +4,7 @@ image: /images/author.png
 description: "meta description"
 layout: about
 education:
-  title: Formal Education
+  title: Working Experience
   degrees:
     - university: "Southeast University"
       content: "1985 • 1991 • gravida nibh velvelit auctor alimo quet menean solli"

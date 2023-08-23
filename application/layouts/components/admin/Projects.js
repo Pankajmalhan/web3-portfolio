@@ -37,8 +37,9 @@ const ProjectDashBoard = ({ }) => {
                                 <div className="rounded border border-border px-6 pt-6 dark:border-darkmode-border">
                                     <div className="row">
                                         {allProject.map((project) => (
-                                            <div className="mb-8 md:col-6" key={project.uri}>
+                                            <div className="shadow-lg pb-10" key={project.uri}>
                                                 <Post ipfsUri={project.uri} id={project.id} showDelete={true} />
+                                                <div className="mb-4"></div>
                                             </div>
                                         ))}
                                     </div>

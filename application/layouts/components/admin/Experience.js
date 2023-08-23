@@ -30,11 +30,10 @@ const Experience = ({ }) => {
         }
     }
 
-    const addExperience = async (id, isNew, name, role, url, year) => {
+    const addExperience = async (id, name, role, url, year) => {
+        console.log(name, role, url, year)
         if (name && role && url && year) {
-            setExperienceMutateAsync({ args: [name, role, url, year] });
-            const data = await refetch();
-            setExperience([...data.map((item) => ({ ...item, isNew: false }))]);
+            await setExperienceMutateAsync({ args: [name, role, url, year] });
         } else {
             alert("Please fill all the fields");
         }

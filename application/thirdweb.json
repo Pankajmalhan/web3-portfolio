@@ -50,6 +50,14 @@
     {
       "address": "0x09E38B218b3C2e8F4AAB7c9e9a610BC6972f630D",
       "chainId": 1337
+    },
+    {
+      "address": "0xBe355e183Cf1b44A44c467fD76E079C996f9540C",
+      "chainId": 1337
+    },
+    {
+      "address": "0x8433995539D552594526721eF892a52b826afdb5",
+      "chainId": 1337
     }
   ]
 }

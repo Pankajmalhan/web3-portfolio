@@ -68,7 +68,7 @@ contract Portfolio is
     }
 
     // Read function to get name
-    function getName() public view returns (string memory) {
+    function getName() public pure returns (string memory) {
         return "test user";
     }
 
@@ -418,26 +418,26 @@ contract Portfolio is
     // Write function to update education
     function updateEducation(
         uint256 _index,
-        string memory _name,
-        string memory _degree,
-        string memory _year,
-        uint8 _percentage
+        string memory name,
+        string memory degree,
+        string memory year,
+        uint8 percentage
     ) public onlyOwner {
         require(_index < _education.length, "Invalid index");
-        require(bytes(_name).length > 0, "Name cannot be empty");
-        require(bytes(_degree).length > 0, "Degree cannot be empty");
-        require(bytes(_year).length > 0, "Year cannot be empty");
+        require(bytes(name).length > 0, "Name cannot be empty");
+        require(bytes(degree).length > 0, "Degree cannot be empty");
+        require(bytes(year).length > 0, "Year cannot be empty");
 
         // Validate Percentage
         require(
-            _percentage >= 0 && _percentage <= 100,
+            percentage >= 0 && percentage <= 100,
             "Percentage must be between 0 and 100"
         );
 
-        _education[_index].name = _name;
-        _education[_index].degree = _degree;
-        _education[_index].year = _year;
-        _education[_index].percentage = _percentage;
+        _education[_index].name = name;
+        _education[_index].degree = degree;
+        _education[_index].year = year;
+        _education[_index].percentage = percentage;
     }
 
     // Write function to delete education

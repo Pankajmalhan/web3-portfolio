@@ -54,7 +54,6 @@ const Post = ({ ipfsUri, showDelete, id }) => {
     mutateAsync({ args: [id] });
   }
 
-  console.log(github);
   return (
     <div className="post">
       <div className="relative">
@@ -107,16 +106,16 @@ const Post = ({ ipfsUri, showDelete, id }) => {
         </li>}
       </ul>
       <p className="mt-4">{projectData.description}</p>
-      <div className="flex">
+      <div className="flex mb-4">
         <Link
           className="btn btn-outline-primary mt-4"
-          href={"/${blog_folder}/${post.slug}"}>
+          href={`/post/${encodeURIComponent(ipfsUri.split("/ipfs/")[1])}`}>
           Find More
         </Link>
         {showDelete && <button
           type="button"
           onClick={deleteProject}
-          className="text-white bg-red-600 hover:bg-red-500 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-md text-md px-5 py-2.5 ml-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+          className="mt-4 text-white bg-red-600 hover:bg-red-500 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-md text-md px-5 py-2.5 ml-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 mb-4">
           Delete
         </button>}
       </div>

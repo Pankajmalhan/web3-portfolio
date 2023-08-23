@@ -1,24 +1,15 @@
 import config from "@config/config.json";
 import Base from "@layouts/Baseof";
-import ImageFallback from "@layouts/components/ImageFallback";
-import Pagination from "@layouts/components/Pagination";
 import Post from "@layouts/partials/Post";
-import Sidebar from "@layouts/partials/Sidebar";
 import { getListPage, getRegularPage, getSinglePage } from "@lib/contentParser";
 import { getTaxonomy } from "@lib/taxonomyParser";
-import dateFormat from "@lib/utils/dateFormat";
 import { sortByDate } from "@lib/utils/sortFunctions";
 import { markdownify } from "@lib/utils/textConverter";
-import Link from "next/link";
-import Image from "next/image";
-import { MDXRemote } from "next-mdx-remote";
-import shortcodes from "@shortcodes/all";
 import portfolioService from "@lib/services/portfolio";
 import Intro from "@layouts/components/Intro";
 import { useContract, useContractRead, useStorage } from "@thirdweb-dev/react";
 import { useEffect, useState } from "react";
-import { Progress } from "@material-tailwind/react";
-import { projects } from "const/contracts";
+import { portfolio, projects } from "const/contracts";
 const { blog_folder, pagination } = config.settings;
 
 const Home = ({
@@ -47,6 +38,10 @@ const Home = ({
   const storage = useStorage();
   const [allProject, setAllProjects] = useState([]);
   const { data, isLoading, error, refetch } = useContractRead(contract, "getAllTokenUris");
+  const { contract: portfolioContract } = useContract(portfolio);
+  const { data: educationList, isLoading: educationIsLoading, error: educationError, refetch: educationRefetch } = useContractRead(portfolioContract, "getAllEducation");
+  const { data: ExperienceList, isLoading: ExperienceIsLoading, error: ExperienceError, refetch: ExperienceRefetch } = useContractRead(portfolioContract, "getAllExperience");
+
   useEffect(() => {
     if (data) {
       setAllProjects(data.filter(project => project));
@@ -76,36 +71,37 @@ const Home = ({
     }
   }, []);
 
+  console.log({ ExperienceList })
   return (
     <Base github={userInfo.github} linkedin={userInfo.linkedin} email={userInfo.email} phone={userInfo.phone} tagLine={userInfo.tagLine}>
       <Intro userInfo={userInfo} />
       <section className="section mt-0 pt-0">
         <div className="pl-12 pr-12">
           {markdownify(title, "h1", "h1 text-left lg:text-[55px] mt-12")}
-          <div className="content text-left mt-4 mb-8">
+          <div className="content text-left mt-4 mb-8 text-lg">
             {desc}
           </div>
           <div className="row items-start">
             <div className="mb-12 lg:mb-0 lg:col-12">
               {/* Recent Posts */}
-              {recent_posts.enable && (
-                <div className="section pt-0 pb-0">
-                  <div className="rounded border border-border px-6 pt-6 dark:border-darkmode-border">
-                    {markdownify("Education", "h2", "section-title")}
-                    <div className="row">
-                      {sortPostByDate.slice(0, 3).map((post) => (
-                        <div className="mb-8 md:col-4" key={post.slug}>
-                          <a href="#" className="relative block max-w-sm p-6 bg-primary border border-gray-200 rounded-lg shadow group overflow-hidden">
-                            <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology acquisitions 2021</h5>
-                            <p className="font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
-                          </a>
+              <div className="section pt-0 pb-0">
+                <div className="rounded border border-border px-6 pt-6 dark:border-darkmode-border">
+                  {markdownify("Education", "h2", "section-title")}
+                  <div className="row">
+                    {educationList?.map((education) => (
+                      <div className="mb-8 md:col-4" key={education.degree}>
+                        <a href="#" className="relative block max-w-sm p-6 bg-primary border border-gray-200 rounded-lg shadow group overflow-hidden">
+                          <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{education.degree}</h5>
+                          <p className="font-normal text-gray-700 dark:text-gray-400 flex"><h6>Institute: &nbsp;</h6>{education.name}</p>
+                          <p className="font-normal text-gray-700 dark:text-gray-400 flex"><h6>Year: &nbsp;</h6>{education.year}</p>
+                          <p className="font-normal text-gray-700 dark:text-gray-400 flex"><h6>Percentage: &nbsp;</h6>{education.percentage}</p>
+                        </a>
 
-                        </div>
-                      ))}
-                    </div>
+                      </div>
+                    ))}
                   </div>
                 </div>
-              )}
+              </div>
             </div>
           </div>
           <div className="row mt-24 text-left lg:flex-nowrap">
@@ -113,12 +109,17 @@ const Home = ({
               <div className="rounded border border-border p-6 dark:border-darkmode-border ">
                 {markdownify(education.title, "h2", "section-title mb-12")}
                 <div className="col">
-                  {education.degrees.slice(0, 3).map((degree, index) => (
-                    <div className="mb-12 md:col-12" key={"degree-" + index}>
-                      <h4 className="text-base lg:text-[25px]">
-                        {degree.university}
-                      </h4>
-                      <p className="mt-2">{degree.content}</p>
+                  {ExperienceList?.map((experience, index) => (
+                    <div className="mb-12 md:col-12" key={"experience-" + index}>
+                      <a href={experience.url} target="_blank" title>
+                        <h4 className="text-base lg:text-[25px]">
+                          {experience.name}
+                        </h4>
+                      </a>
+                      <div className="flex">
+                        <p className="mt-2 flex text-lg"><h6 style={{ marginTop:'4px'}}>Designation:&nbsp;&nbsp;</h6> {`${experience.role}`}&nbsp;&nbsp;</p>
+                        <p className="mt-2 flex text-lg"><h6 style={{ marginTop:'4px'}}>Duration:&nbsp;&nbsp;</h6> {`${experience.year}`}</p>
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -148,7 +149,7 @@ const Home = ({
                 <div className="rounded border border-border px-6 pt-6 dark:border-darkmode-border">
                   <div className="row">
                     {allProject.map((ipfsUri) => (
-                      <div className="mb-8 md:col-6" key={ipfsUri}>
+                      <div className="mb-8 md:col-6 shadow-lg" key={ipfsUri}>
                         <Post ipfsUri={ipfsUri} />
                       </div>
                     ))}
@@ -167,7 +168,7 @@ export default Home;
 
 export const getServerSideProps = async () => {
   const data = await portfolioService.getAll();
-  const userInfo = { name: data[0], tagLine: data[6], profileImage: data[2], description: data[1], resume: data[3], email: data[4], phone: data[5], github:data[7], linkedin:data[8]}
+  const userInfo = { name: data[0], tagLine: data[6], profileImage: data[2], description: data[1], resume: data[3], email: data[4], phone: data[5], github: data[7], linkedin: data[8] }
   const homepage = await getListPage("content/_index.md");
   const { frontmatter } = homepage;
   const { banner, featured_posts, recent_posts, promotion } = frontmatter;

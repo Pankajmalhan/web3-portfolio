@@ -8,11 +8,11 @@ import EducationForm from "../EducationForm";
 const Education = ({ }) => {
     const { contract } = useContract(portfolio);
     const { data, isLoading, error, refetch } = useContractRead(contract, "getAllEducation");
-    const { mutateAsync: setEducationMutateAsync, isLoading: setEducationIsLoading, error: setEducationError } = useContractWrite(contract, "addEducation");
-    const { mutateAsync: deleteEducationMutateAsync, isLoading: deleteEducationIsLoading, error: deleteEducationError } = useContractWrite(contract, "deleteEducation");
-    const { mutateAsync: updateEducationMutateAsync, isLoading: updateEducationIsLoading, error: updateEducationError } = useContractWrite(contract, "updateEducation");
+    const { mutateAsync: setEducationMutateAsync, isLoading: setEducationIsLoading } = useContractWrite(contract, "addEducation");
+    const { mutateAsync: deleteEducationMutateAsync, isLoading: deleteEducationIsLoading } = useContractWrite(contract, "deleteEducation");
+    const { mutateAsync: updateEducationMutateAsync, isLoading: updateEducationIsLoading } = useContractWrite(contract, "updateEducation");
     const [educations, setEducations] = useState([]);
-
+    
     useEffect(() => {
         if (data) {
             setEducations(data.map((item) => ({ ...item, isNew: false })));
@@ -24,7 +24,8 @@ const Education = ({ }) => {
     }
 
     const addUpdateEducation = (id, isNew, instituteName, degreeName, year, percentage) => {
-        if (degreeName, instituteName, year, percentage) {
+        if (degreeName && instituteName && year && parseInt(percentage)) {
+            console.log(instituteName, degreeName, year, parseInt(percentage))
             updateEducationMutateAsync({ args: [id, instituteName, degreeName, year, parseInt(percentage)] });
         } else {
             alert("Please fill all the fields");
@@ -32,10 +33,14 @@ const Education = ({ }) => {
     }
 
     const addEducation = (id, isNew, name, instituteName, year, percentage) => {
-        if (name, instituteName, year, percentage) {
-            setEducationMutateAsync({ args: [name, instituteName, year, parseInt(percentage)] });
-        } else {
-            alert("Please fill all the fields");
+        try {
+            if (name && instituteName && year && parseInt(percentage)) {
+                setEducationMutateAsync({ args: [name, instituteName, year, parseInt(percentage)] });
+            } else {
+                alert("Please fill all the fields");
+            }
+        } catch (exp) {
+            alert(exp)
         }
     }
 
